@@ -249,6 +249,10 @@ $mainFontSize: 16px;
         }
     }
 
+    &__title {
+        margin-bottom: 60px;
+    }
+
     &__list {
         margin-top: 50px;
         counter-reset: tracks;
@@ -267,10 +271,15 @@ $mainFontSize: 16px;
     &__item{
         font-size: 1.125em;
         line-height: 27px;
+        cursor: pointer;
         
         &_chosen {
             color: #7A66CC;
             font-weight: 600;
+        }
+
+        &:hover {
+            opacity: 0.75;
         }
     }
 
@@ -332,6 +341,7 @@ $mainFontSize: 16px;
 .photos {
     &__content {
         margin-top: 90px;
+        padding-bottom: 90px;
         display: grid;
         grid-gap: 30px;
         grid-template-columns: repeat(4, 255px);
@@ -394,7 +404,191 @@ $mainFontSize: 16px;
 
 }
 
+/* slider */
+
+.slider {
+    &__content {
+        margin-top: 90px;
+        margin-bottom: 90px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 40px;
+    }
+
+    &__arrow {
+        padding: 30px 10px;
+        border-radius: 10px 0px 10px 0px;
+        border: 1px solid rgba($color: #fff, $alpha: 0.5);
+        transition: 0.3s;
+
+        img {
+            opacity: 0.5;
+        }
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgba($color: #fff, $alpha: 0.1);
+        }
+    }
+
+    &__list {
+        display: flex;
+        column-gap: 30px;
+    }
+
+    &__item {
+        width: 350px;
+        height: 457px;
+        background-color: #2F2B2B;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__image {
+        width: inherit;
+        height: 280px;
+        overflow: inherit;
+
+        img {    
+            height: 110%;
+            width: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
+    }
+
+    &__position {
+        padding: 30px 35px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+
+    &__location {
+        font-weight: 700;
+        font-size: 1.125em;
+        line-height: 27px;
+        opacity: 0.5;
+    }
+
+    &__place {
+        font-weight: 500;
+        font-size: 1.125em;
+        line-height: 27px;
+    }
+
+    &__item-bottom {
+        display: flex;
+        align-items: center;
+
+        & > div {
+            flex: 0 0 50%;
+        }
+    }
+
+    &__date {
+        font-weight: 700;
+        line-height: 24px;
+        opacity: 0.5;
+        text-align: center;
+    }
+
+    &__button {
+        background-color: #7A66CC;
+        font-weight: 700;
+        line-height: 24px;
+        text-transform: uppercase;
+        padding: 18px 62px 18px 52px;
+        transition: 0.3s;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgba($color: #7A66CC, $alpha: 0.75);
+        }
+    }
+}
+
+/* foot */
+
+.foot {
+    &__content {
+        padding-top: 90px;
+        padding-bottom: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__management {
+        margin: 60px 0px;
+        display: flex;
+        column-gap: 30px;
+        text-transform: uppercase;
+        font-size: 1.125em;
+        line-height: 27px;
+    }
+
+    &__title {
+        text-align: end;
+        font-weight: 600;
+    }
+
+    &__links {
+        margin-bottom: 100px;
+        display: flex;
+        column-gap: 30px;
+    }
+
+    &__copyright {
+        font-size: 0.813em;
+        line-height: 19px;
+        text-transform: uppercase;
+        opacity: 0.5;
+    }
+}
+
 /* blocks */
+
+.player {
+    display: flex;
+    align-items: center;
+}
+
+.play-button {
+    width: 0;
+	height: 0;
+	border-top: 11px solid transparent;
+	border-left: 22px solid #fff;
+	border-bottom: 11px solid transparent;
+    cursor: pointer;
+}
+
+.progress-bar {
+    position: relative;
+    height: 2px;
+    width: 100%;
+    background-color: #fff;
+    margin-left: 45px;
+    margin-right: 47px;
+    cursor: pointer;
+}
+
+.slider-toggle {
+    position: absolute;
+    top: -8px;
+    width: 2px;
+    height: 20px;
+    background-color: #7A66CC;
+}
+
+.timer {
+    font-weight: 500;
+    font-size: 1.125em;
+    line-height: 27px;
+    min-width: 109px;
+}
 
 .title {
     font-size: 3em;
