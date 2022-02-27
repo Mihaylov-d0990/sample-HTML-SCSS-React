@@ -1,102 +1,80 @@
 import React from "react"
+import mozart from "./mozart.mp3"
 
 export default function Player() {
+    const [isPlaying, setIsPlaying] = React.useState(false)
+    const [duration, setDuration] = React.useState(0)
+    const [currentTime, setCurrentTime] = React.useState(0)
 
-    const [tracks, setTracks] = React.useState([
-        {
-            id: "01",
-            name: "3LAU, Bright Lights — How You Love Me",
-            chosen: true
-        },
-        {
-            id: "02",
-            name: "Bright Lights, Kaleena Zanders, Kandy — War For Love",
-            chosen: false
-        },
-        {
-            id: "03",
-            name: "Pink Is Punk, Benny Benassi, Bright Lights — Ghost",
-            chosen: false
-        },
-        {
-            id: "04",
-            name: "Hardwell, Dyro, Bright Lights — Never Say Goodbye",
-            chosen: false
-        },
-        {
-            id: "05",
-            name: "Zeds Dead, Dirtyphonics, Bright Lights — Where Are You Now",
-            chosen: false
-        },
-        {
-            id: "06",
-            name: "Zedd, Bright Lights — Follow You Down",
-            chosen: false
-        }        
-    ])
+    const audioPlayer = React.useRef()
+    const progressBar = React.useRef()
+    const animationRef = React.useRef()
 
-    const setTrack = (id) => {
-        const tracksArr = [...tracks]
-
-        tracksArr.forEach(track => {
-
-            if (track.id === id) track.chosen = true 
-            else track.chosen = false
-
-        })
-
-        setTracks([...tracksArr])
+    const onLoadedMetadata = () => {
+        const seconds = Math.floor(audioPlayer.current.duration);
+        setDuration(seconds);
+        progressBar.current.max = seconds;
+        console.log(seconds);
     }
 
-    const barRef = React.useRef()
-    const [barStyle, setBarStyle] = React.useState({
-        bar: {
-            background: `linear-gradient(90deg, #7A66CC 50%, #fff 50%)`
+    const calcTime = (secs) => {
+        const minutes = Math.floor(secs / 60)
+        const returnedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`
+
+        const seconds = Math.floor(secs % 60)
+        const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`
+
+        return `${returnedMinutes}:${returnedSeconds}`
+    } 
+
+    const togglePlayPause = () => {
+
+        const prevValue = isPlaying
+
+        setIsPlaying(!prevValue)
+
+        if (!prevValue) {
+            audioPlayer.current.play()
+            animationRef.current = requestAnimationFrame(whilePlaying)
+        } else {
+            audioPlayer.current.pause()
+            cancelAnimationFrame(animationRef.current)
         }
-        // ,
-        // slider: {
-        //     left: `${Math.round(barRef.current.clientWidth * 0,5)}px`
-        // }
-    })
-
-    const check = (event) => {
-        let pos = event.clientX - barRef.current.getBoundingClientRect().left
-        let percent = Math.round(pos / (barRef.current.clientWidth / 100))
-        setBarStyle({
-            bar: {
-                background: `linear-gradient(90deg, #7A66CC ${percent}%, #fff ${percent}%)`
-            }
-            // , 
-            // slider: {
-            //     left: `${Math.round(barRef.current.clientWidth * (percent / 100))}px`
-            // }
-        })
     }
 
-    
-    const sliderRef = React.useRef()
+    const whilePlaying = () => {
+        progressBar.current.value = audioPlayer.current.currentTime
+        changePlayerCurrentTime()
+        animationRef.current = requestAnimationFrame(whilePlaying)
+    }
+
+    const changeRange = () => {
+        audioPlayer.current.currentTime = progressBar.current.value
+        changePlayerCurrentTime()
+    }
+
+    const changePlayerCurrentTime = () => {
+        progressBar.current.style.setProperty("--seek-before-width", `${progressBar.current.value / duration * 100}%`)
+        setCurrentTime(progressBar.current.value)
+    }
 
     return (
-        <>
-            <div className="tracks__player player">
-                <div className="tracks__play play-button"></div>
-                <div className="tracks__progress-bar progress-bar" style={barStyle.bar} ref={barRef} onClick={(e) => (check(e))}>
-                    <div className="tracks__slider-toggle slider-toggle" ref={sliderRef}></div>
-                </div>
-                <div className="tracks__timer timer">00:47-03:30</div>
+        <div className="tracks__player player">
+            <audio ref={audioPlayer} preload="metadata" onLoadedMetadata={onLoadedMetadata}>
+                <source src={mozart} type="audio/mp3" />
+            </audio>
+            <button 
+                className={`tracks__toggle ${isPlaying ? "pause-button" : "play-button"}`}
+                onClick={togglePlayPause}
+            ></button>
+            <div className="tracks__progress-bar progress-bar">
+                <input type="range" defaultValue="0" ref={progressBar} onChange={changeRange}/>
             </div>
-            <div className="tracks__list">
-                {tracks.map(track => {
-                    return (
-                        <div key={track.id} onClick={() => (setTrack(track.id))}>
-                            <div className="tracks__id">{track.id}</div>
-                            <div 
-                                className={track.chosen ? "tracks__item tracks__item_chosen" : "tracks__item"} 
-                            >{track.name}</div>
-                        </div>
-                    )
-                })}
+            <div className="tracks__timer timer">
+                <div className="tracks__current-time current-time">{calcTime(currentTime)}</div>
+                -
+                <div className="tracks__duration duration">{(duration && !isNaN(duration)) && calcTime(duration)}</div>
             </div>
-        </>
+        </div>
     )
 }

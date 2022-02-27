@@ -1,6 +1,7 @@
 import React from "react"
 
 import Player from "./Player"
+import TrackList from "./TrackList"
 
 import image from "../../images/traks/image.png"
 
@@ -20,6 +21,7 @@ export default function Tracks() {
                     <div className="tracks__second-block">
                         <div className="tracks__title title title-icon">Last tracks</div>
                         <Player />
+                        <TrackList />
                         <div className="tracks__social-media">
                             <div className="tracks__follow">Follow me:</div>
                             
