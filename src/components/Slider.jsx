@@ -35,10 +35,17 @@ export default function Slider() {
         ]
     )
 
+    const slide = () => {
+        let arr = [...elements]
+        arr.unshift({...arr[arr.length - 1], id: arr[arr.length - 1].id + 1})
+        arr.pop()
+        setElements(arr)
+    }
+
     return (
         <div className="slider">
             <div className="slider__content">
-                <div className="slider__arrow">
+                <div className="slider__arrow" onClick={slide}>
                     <img src={arrowLeft} alt="" />
                 </div>
                     <div className="slider__list">
@@ -56,11 +63,11 @@ export default function Slider() {
                                         <div className="slider__date">{element.date}</div>
                                         <div className="slider__button border-30">tickets</div>
                                     </div>
-                                </div>
+                                </div>        
                             )
                         })}
                     </div>
-                <div className="slider__arrow">
+                <div className="slider__arrow" onClick={slide}>
                     <img src={arrowRight} alt="" />
                 </div>
             </div>

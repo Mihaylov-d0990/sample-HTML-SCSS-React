@@ -18,9 +18,13 @@ export default function Foot() {
                     <div className="foot__logo">
                         <img src={logo} alt="" />
                     </div>
-                    <div className="foot__management">
+                    <div className="foot__management-center">
                         <div className="foot__title">Artist Management:<br/>EMAIL:</div>
                         <div className="foot__text">Jake Henny<br/>jake@brightlightsofficial.com</div>
+                    </div>
+                    <div className="foot__management-left">
+                        <div className="foot__title"><span>Artist Management:</span> Jake Henny</div>
+                        <div className="foot__text"><span>EMAIL:</span> jake@brightlightsofficial.com</div>
                     </div>
                     <div className="foot__links">
                         {linksIcons.map((icon, index) => {

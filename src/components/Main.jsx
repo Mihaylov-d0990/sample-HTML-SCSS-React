@@ -3,7 +3,11 @@ import image1 from "../images/main/image1.png"
 import image2 from "../images/main/image2.png"
 import image3 from "../images/main/image3.png"
 
-export default function Head() {
+import Player from "./Tracks/Player"
+
+import React from "react"
+
+export default function Main() {
 
     const items = [
         {
@@ -67,7 +71,9 @@ export default function Head() {
                     <div className="main__content">
                             <div className="main__title title">New Single</div>
                             <div className="main__song-name">War For Love</div>
-                            <div className="main__song"></div>
+                            <div className="main__song">
+                                <Player />
+                            </div>
                             <div className="main__list">
                                 {items.map(item => {
                                     return (

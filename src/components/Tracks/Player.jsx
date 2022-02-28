@@ -1,5 +1,6 @@
-import React from "react"
 import mozart from "./mozart.mp3"
+
+import React from "react"
 
 export default function Player() {
     const [isPlaying, setIsPlaying] = React.useState(false)
@@ -14,7 +15,6 @@ export default function Player() {
         const seconds = Math.floor(audioPlayer.current.duration);
         setDuration(seconds);
         progressBar.current.max = seconds;
-        console.log(seconds);
     }
 
     const calcTime = (secs) => {
@@ -59,21 +59,21 @@ export default function Player() {
     }
 
     return (
-        <div className="tracks__player player">
+        <div className="player">
             <audio ref={audioPlayer} preload="metadata" onLoadedMetadata={onLoadedMetadata}>
                 <source src={mozart} type="audio/mp3" />
             </audio>
             <button 
-                className={`tracks__toggle ${isPlaying ? "pause-button" : "play-button"}`}
+                className={`${isPlaying ? "pause-button" : "play-button"}`}
                 onClick={togglePlayPause}
             ></button>
-            <div className="tracks__progress-bar progress-bar">
+            <div className="progress-bar">
                 <input type="range" defaultValue="0" ref={progressBar} onChange={changeRange}/>
             </div>
-            <div className="tracks__timer timer">
-                <div className="tracks__current-time current-time">{calcTime(currentTime)}</div>
+            <div className="timer">
+                <div className="current-time">{calcTime(currentTime)}</div>
                 -
-                <div className="tracks__duration duration">{(duration && !isNaN(duration)) && calcTime(duration)}</div>
+                <div className="duration">{(duration && !isNaN(duration)) && calcTime(duration)}</div>
             </div>
         </div>
     )

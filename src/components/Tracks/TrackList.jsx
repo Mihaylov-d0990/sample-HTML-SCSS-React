@@ -40,11 +40,20 @@ export default function TrackList() {
         }        
     ])
 
+    const changeTrack = (id) => {
+        let arr = [...tracks]
+        arr.forEach(element => {
+            if (element.id === id) element.chosen = true
+            else element.chosen = false
+        })
+        setTracks(arr)
+    }
+
     return (
         <div className="tracks__list">
             {tracks.map(track => {
                 return (
-                    <div key={track.id}>
+                    <div key={track.id} onClick={() => (changeTrack(track.id))}>
                         <div className="tracks__id">{track.id}</div>
                         <div 
                             className={track.chosen ? "tracks__item tracks__item_chosen" : "tracks__item"} 
